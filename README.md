@@ -1,6 +1,6 @@
 # Scraper
 
-This rails application is used to index fetch and delete contents of given urls.
+This rails application is used to index, fetch and delete contents of given urls.
 The application exposes an API with the following RESTful endpoints:
 
 | HTTP Verb | URI              | Body                      | Method      |
@@ -10,26 +10,26 @@ The application exposes an API with the following RESTful endpoints:
 |  GET      | api/v1/pages/:id |                           | Show        |
 |  DELET    | api/v1/pages/:id |                           | Destroy     |
 
-Response data is formated in the JSON format.
+Response data is formatted in JSON format.
 
 Each method is described briefly:
 
 __Create:__ expects a url parameter that specifies the url to be indexed.
-It scrapes the given url and save url along with content in the databse.
+It scrapes the given url and save url along with content in the database.
 Note: There is no Update method - If a record for a given url already exists, 
-it just gets updated with the newly scraped content. Otherwise a new record is created.
+it just gets updated with the newly scraped content. Otherwise, a new record is created.
 Return status codes: 
 * 204 on success (empty body)
-  * Location response header contains the url of the created page
+  * In this case the 'Location' response-header contains the url of the created page
 * 422 on error, body contains error message
 
-__Index:__ Fetches all page records from the database table format them as JSON array of records.
+__Index:__ Fetches all page records from the database 
 Return status codes:
 * 200 on success (body contains array of page records)
 
-__Show:__ Fetches a single record mathching the given id
+__Show:__ Fetches a single record matching the given id
 Return status codes:
-* 200 on success (body contains single record in JSON)
+* 200 on success (body contains single record)
 * 404 id not found (empty body) 
 
 __Destroy:__ Deletes a record matching the given id from the database.
@@ -38,8 +38,9 @@ Return status codes:
 * 404 id not found (empty body)
 * 405 error in record deletion (body contains error message)
 
-The content the is being indexed for a page is the content of the page's h1, h2, h3 and 'a' tags.
-In response each of the above keys is mapped to an array of values ('h1' array of content etc...)
+The content that is being indexed for a page is the content of the 'h1', 'h2', 'h3' and 'a' tags.
+In the response body of the Show and Index methods, each of the above keys is 
+mapped to an array of values representing the content of instances of the corresponding tag, in the same order as found.
 
 The application was tested using ruby 2.2.3 
 
@@ -51,7 +52,7 @@ The application was tested using ruby 2.2.3
 # Examples
 One can use _curl_ to test the api:
 
-* Index a page. The Location response header will refer the url of the indexed page:
+* Index a page. Upon success, the Location response header will contain the url of the indexed page:
   __curl -i -X POST -d "url=https://en.wikipedia.org/wiki/Main_Page" http://localhost:3000/api/v1/pages__
 * Show page with id 1:
   __curl -i http://localhost:3000/api/v1/pages/1__
