@@ -45,7 +45,8 @@ The application was tested using ruby 2.2.3
 
 # Runnig the application
 * _bundle install_ to install gems
-* __bundle exec rails s__ to run server
+* _bundle exec rake db:migrate_ to migrate the database
+* _bundle exec rails s_ to run server
 
 # Examples
 One can use _curl_ to test the api:
