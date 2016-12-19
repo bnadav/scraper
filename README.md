@@ -11,30 +11,35 @@ The application exposes an API with the following RESTful endpoints:
 |  DELET    | api/v1/pages/:id |                           | Destroy     |
 
 Response data is formatted in JSON format.
+
 Note: The current version *always* returns JSON formatted responses. 
 This can be easily fixed and extended in future versions !
 
-Each method is described briefly:
+Each of the above methods is described briefly:
 
 __Create:__ expects a url parameter that specifies the url to be indexed.
 It scrapes the given url and save url along with content in the database.
 Note: There is no Update method - If a record for a given url already exists, 
 it just gets updated with the newly scraped content. Otherwise, a new record is created.
+
 Return status codes: 
 * 204 on success (empty body)
   * In this case the 'Location' response-header contains the url of the created page
 * 422 on error, body contains error message
 
 __Index:__ Fetches all page records from the database 
+
 Return status codes:
 * 200 on success (body contains array of page records)
 
 __Show:__ Fetches a single record matching the given id
+
 Return status codes:
 * 200 on success (body contains single record)
 * 404 id not found (empty body) 
 
 __Destroy:__ Deletes a record matching the given id from the database.
+
 Return status codes:
 * 204 on success (empty body)
 * 404 id not found (empty body)
