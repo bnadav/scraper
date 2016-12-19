@@ -3,18 +3,18 @@ describe PagesController do
   describe 'POST create' do
 
    before do
-     @pg = Page.new
-     allow(Page).to receive(:scrape).and_return(@pg)
+     @page = Page.new
+     allow(Page).to receive(:scrape).and_return(@page)
    end
 
    it "has 204 status on success" do
-     allow(@pg).to receive(:save).and_return true
+     allow(@page).to receive(:save).and_return true
      post :create
      expect(response.status).to eq(204)
    end
 
    it "has 422 status on error" do
-     allow(@pg).to receive(:save).and_return false
+     allow(@page).to receive(:save).and_return false
      post :create
      expect(response.status).to eq(422)
    end
@@ -27,11 +27,17 @@ describe PagesController do
       create_pages(1)
     end
 
-    it "produces json response for given id" do
-      p1 = Page.first
-      get :show, id: p1
+    let(:page) { Page.first }
+
+    it "has 200 status on success, and json body" do
+      get :show, params: { id: page }
       expect(response.status).to eq 200
-      expect(response.body).to eq p1.to_json
+      expect(response.body).to eq page.to_json
+    end
+
+    it "has 404 status on non existing id" do
+      get :show, params: { id: page.id + 1 }
+      expect(response.status).to eq 404
     end
   end
 
@@ -40,14 +46,36 @@ describe PagesController do
       create_pages(5)
     end
 
-    it "produces json response for all pages in store" do
+    it "has 200 status, and body consist of pages in json format" do
        get :index
        expect(response.status).to eq 200
        expect(response.body).to eq Page.all.to_json
     end
   end
 
+  describe 'DELETE destroy' do
 
+    before do
+      create_pages(1)
+    end
+
+    let(:page) { Page.first }
+
+    it "has 204 status on sucess, and number of record decreases by one" do
+      delete :destroy, params: { id: page }
+      expect(response.status).to eq 204
+      expect(Page).to be_none
+    end
+
+    it "has 404 for non existing page, and number of records does not change" do
+      delete :destroy, params: { id: page.id + 1 }
+      expect(response.status).to eq 404
+      expect(Page.count).to eq 1
+    end
+  end
+
+
+  # Helper method that creates distinct page records in the database
   def create_pages(num)
     num.times do |i|
       Page.create(url: "http://www.uri_#{i}.com", 

@@ -20,8 +20,15 @@ class PagesController < ApplicationController
     if page.save
       head 204, location: page
     else
-      render json: page.errors[:base], status: 422
+      render json: page.errors, status: 422
     end
+  end
+
+  def destroy
+    page = Page.find_by(id: params[:id])
+    head 404 and return unless page # page not found
+    head 405 and return unless page.destroy # page can not be deleted (maybe action stoped by hook)
+    head 204
   end
 
 end
