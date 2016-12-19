@@ -52,9 +52,9 @@ mapped to an array of values representing the content of instances of the corres
 The application was tested using ruby 2.2.3 
 
 # Runnig the application
-* _bundle install_ to install gems
-* _bundle exec rake db:migrate_ to migrate the database
-* _bundle exec rails s_ to run server
+* <tt>bundle install</tt> to install gems
+* <tt>bundle exec rake db:migrate</tt> to migrate the database
+* <tt>bundle exec rails s</tt> to run server
 
 # Examples
 One can use _curl_ to test the api:
