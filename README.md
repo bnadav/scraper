@@ -11,6 +11,8 @@ The application exposes an API with the following RESTful endpoints:
 |  DELET    | api/v1/pages/:id |                           | Destroy     |
 
 Response data is formatted in JSON format.
+Note: The current version *always* returns JSON formatted responses. 
+This can be easily fixed and extended in future versions !
 
 Each method is described briefly:
 
