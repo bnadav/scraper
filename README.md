@@ -1,5 +1,7 @@
 # Scraper
 
+[![Code Climate](https://codeclimate.com/github/bnadav/scraper/badges/gpa.svg)](https://codeclimate.com/github/bnadav/scraper)
+
 This rails application is used to index, fetch and delete contents of given urls.
 The application exposes an API with the following RESTful endpoints:
 
